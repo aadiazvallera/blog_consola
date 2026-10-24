@@ -1,0 +1,76 @@
+[
+    {
+        "id": 1,
+        "titulo": "Primeros pasos con Python",
+        "contenido": "En este post veremos cómo empezar a programar con Python.",
+        "autor": {
+            "nombre": "Alejandro Díaz",
+            "bio": "Analista de Impuestos, estudiante de Licenciatura en Economía y de Data Science",
+            "especialidad": "Gestión de compras, pagos y análisis impositivo",
+            "redes_sociales": [
+                "@alediazvallera",
+                "@laleitor_30"
+            ]
+        },
+        "tags": [
+            "Python",
+            "Principiantes"
+        ],
+        "estado": "publicado"
+    },
+    {
+        "id": 2,
+        "titulo": "Introducción a Pandas",
+        "contenido": "Pandas es una librería para analizar datos en Python.",
+        "autor": {
+            "nombre": "Alejandro Díaz",
+            "bio": "Analista de Impuestos, estudiante de Licenciatura en Economía y de Data Science",
+            "especialidad": "Gestión de compras, pagos y análisis impositivo",
+            "redes_sociales": [
+                "@alediazvallera",
+                "@laleitor_30"
+            ]
+        },
+        "tags": [
+            "Python",
+            "Pandas",
+            "Data Science"
+        ],
+        "estado": "borrador"
+    },
+    {
+        "id": 3,
+        "titulo": "Organizando datos con diccionarios",
+        "contenido": "Los diccionarios permiten guardar datos con pares clave-valor.",
+        "autor": {
+            "nombre": "Alejandro Díaz",
+            "bio": "Analista de Impuestos, estudiante de Licenciatura en Economía y de Data Science",
+            "especialidad": "Gestión de compras, pagos y análisis impositivo",
+            "redes_sociales": [
+                "@alediazvallera",
+                "@laleitor_30"
+            ]
+        },
+        "tags": [
+            "Python",
+            "Diccionarios"
+        ],
+        "estado": "archivado"
+    },
+    {
+        "id": 4,
+        "titulo": "Post con errores",
+        "contenido": "",
+        "autor": {
+            "nombre": "Alejandro Díaz",
+            "bio": "Analista de Impuestos, estudiante de Licenciatura en Economía y de Data Science",
+            "especialidad": "Gestión de compras, pagos y análisis impositivo",
+            "redes_sociales": [
+                "@alediazvallera",
+                "@laleitor_30"
+            ]
+        },
+        "tags": "Python",
+        "estado": "pendiente"
+    }
+]

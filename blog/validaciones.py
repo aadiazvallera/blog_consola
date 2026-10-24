@@ -1,13 +1,13 @@
 # validaciones.py
-
-from blog.datos import estados_post
+# Reglas lógicas para validar la estructura de los posts
 
 # Claves obligatorias que debe tener cada post
 CLAVES_OBLIGATORIAS = ("id", "titulo", "contenido", "autor", "tags", "estado")
 
 
-def validar_post(post):
-    """Valida la estructura de un post. Retorna (True, mensaje) o (False, mensaje de error)."""
+def validar_post(post, estados_validos):
+    """Valida la estructura de un post (diccionario).
+    Retorna (True, mensaje) o (False, mensaje de error)."""
     # Debe ser un diccionario
     if not isinstance(post, dict):
         return False, "el post no es un diccionario"
@@ -34,7 +34,7 @@ def validar_post(post):
         return False, 'los "tags" no son una lista'
 
     # estado debe estar entre los estados definidos
-    if post["estado"] not in estados_post:
+    if post["estado"] not in estados_validos:
         return False, f'el estado "{post["estado"]}" no es válido'
 
     return True, "válido"

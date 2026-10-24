@@ -1,33 +1,59 @@
 # main.py
+# Archivo principal: crea la instancia de Blog y coordina el menú
 
-from blog.datos import posts
-from blog.menu import mostrar_menu, pedir_texto
-from blog.operaciones import (
-    listar_posts,
-    buscar_por_titulo,
-    filtrar_por_tag,
-    mostrar_resultados,
-)
-from blog.validaciones import validar_post
+import sys
+from pathlib import Path
+
+# Permite importar el paquete `blog` desde la carpeta del proyecto al ejecutar este archivo.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from importlib import import_module
+
+_datos = import_module("blog.datos")
+cargar_posts = _datos.cargar_posts
+guardar_posts = _datos.guardar_posts
+estados_post = _datos.estados_post
+autor_principal = _datos.autor_principal
+
+_menu = import_module("blog.menu")
+mostrar_menu = _menu.mostrar_menu
+pedir_texto = _menu.pedir_texto
+pedir_tags = _menu.pedir_tags
+Blog = import_module("blog.modelos").Blog
 
 
-def validar_todos(lista):
-    """Recorre la lista y muestra si cada post es válido o tiene errores."""
-    print("\nValidación de posts:")
-    for indice, post in enumerate(lista, start=1):
-        es_valido, mensaje = validar_post(post)
-        if es_valido:
-            print(f"Post {indice}: válido")
-        else:
-            print(f"Post {indice}: error - {mensaje}")
+def crear_post_desde_consola(blog):
+    """Pide los datos por consola y crea un nuevo post en el blog."""
+    titulo = pedir_texto("Título: ")
+    contenido = pedir_texto("Contenido: ")
+    tags = pedir_tags("Tags (separados por coma): ")
+    estado = pedir_texto("Estado (borrador/publicado/archivado) [Enter = borrador]: ").lower()
+
+    if estado == "":
+        estado = "borrador"
+    if estado not in estados_post:
+        print("Error: estado no válido. No se creó el post.")
+        return
+    if not tags:
+        print("Error: ingresá al menos un tag. No se creó el post.")
+        return
+
+    try:
+        nuevo = blog.crear_post(titulo, contenido, autor_principal, tags, estado)
+        print(f"Post creado con id {nuevo.id}. Recordá guardarlo con la opción 6.")
+    except ValueError as error:
+        print(f"Error: {error}. No se creó el post.")
 
 
 if __name__ == "__main__":
+    # Se cargan los posts desde posts.json y se crea la instancia de Blog
+    blog = Blog(cargar_posts())
+
     while True:
         opcion = mostrar_menu()
 
         if opcion == 1:
-            listar_posts(posts)
+            blog.listar_posts()
 
         elif opcion == 2:
             termino = pedir_texto("Buscar por titulo: ")
@@ -35,7 +61,7 @@ if __name__ == "__main__":
                 print("La búsqueda no puede estar vacía.")
             else:
                 print("\nResultados de la búsqueda:")
-                mostrar_resultados(buscar_por_titulo(posts, termino),
+                blog.mostrar_posts(blog.buscar_por_titulo(termino),
                                    "No se encontraron posts con ese título.")
 
         elif opcion == 3:
@@ -44,13 +70,20 @@ if __name__ == "__main__":
                 print("El tag no puede estar vacío.")
             else:
                 print(f"\nPosts con el tag {tag}:")
-                mostrar_resultados(filtrar_por_tag(posts, tag),
+                blog.mostrar_posts(blog.filtrar_por_tag(tag),
                                    "No se encontraron posts con ese tag.")
 
         elif opcion == 4:
-            validar_todos(posts)
+            crear_post_desde_consola(blog)
 
         elif opcion == 5:
+            blog.validar_posts(estados_post)
+
+        elif opcion == 6:
+            if guardar_posts(blog.obtener_posts()):
+                print("Posts guardados en posts.json.")
+
+        elif opcion == 7:
             print("Gracias por usar el sistema del blog. ¡Hasta luego!")
             break
 
